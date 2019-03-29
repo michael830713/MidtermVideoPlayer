@@ -13,6 +13,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:progressTint="#d33dc9"
+        android:thumbTint="@color/colorAccent"
         app:layout_constraintEnd_toStartOf="@+id/time"
         app:layout_constraintStart_toEndOf="@+id/time_current"
         app:layout_constraintTop_toTopOf="parent" />
