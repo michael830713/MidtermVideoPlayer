@@ -27,17 +27,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
-        
+
         videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
         SurfaceHolder videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
 
         player = new MediaPlayer();
         controller = new VideoControllerView(this);
-        
+
         try {
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             player.setDataSource(this, Uri.parse("https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4"));
+//            player.setDataSource(this, Uri.parse("https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/protraitVideo.mp4"));
             player.setOnPreparedListener(this);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -51,11 +52,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
         player.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
             @Override
             public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                mPercent=percent;
+                mPercent = percent;
             }
         });
-//        player.setVideoScalingMode(MediaPlayer
-//                .VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+        player.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
+            @Override
+            public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+                android.view.ViewGroup.LayoutParams lp = videoSurface.getLayoutParams();
+                lp.width = width*2;
+                lp.height = height*2;
+                videoSurface.setLayoutParams(lp);
+            }
+        });
     }
 
     @Override
@@ -67,18 +75,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     // Implement SurfaceHolder.Callback
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        
+
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-    	player.setDisplay(holder);
+        player.setDisplay(holder);
         player.prepareAsync();
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        
+
     }
     // End SurfaceHolder.Callback
 
@@ -88,24 +96,22 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
         controller.setMediaPlayer(this);
         controller.setAnchorView((LinearLayout) findViewById(R.id.video_container));
 
-        int videoWidth = player.getVideoWidth();
-        int videoHeight = player.getVideoHeight();
-        float videoProportion = (float) videoWidth / (float) videoHeight;
-        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-        int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-        float screenProportion = (float) screenWidth / (float) screenHeight;
-        android.view.ViewGroup.LayoutParams lp = videoSurface.getLayoutParams();
-
-        if (videoProportion > screenProportion) {
-            lp.width = screenWidth;
-            lp.height = (int) ((float) screenWidth / videoProportion);
-        } else {
-            lp.width = (int) (videoProportion * (float) screenHeight);
-            lp.height = screenHeight;
-        }
-        videoSurface.setLayoutParams(lp);
-
-
+//        int videoWidth = player.getVideoWidth();
+//        int videoHeight = player.getVideoHeight();
+//        float videoProportion = (float) videoWidth / (float) videoHeight;
+//        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+//        int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+//        float screenProportion = (float) screenWidth / (float) screenHeight;
+//        android.view.ViewGroup.LayoutParams lp = videoSurface.getLayoutParams();
+//
+//        if (videoProportion > screenProportion) {
+//            lp.width = screenWidth;
+//            lp.height = (int) ((float) screenWidth / videoProportion);
+//        } else {
+//            lp.width = (int) (videoProportion * (float) screenHeight);
+//            lp.height = screenHeight;
+//        }
+//        videoSurface.setLayoutParams(lp);
 
         player.start();
     }
@@ -170,10 +176,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
     @Override
     public void toggleMute(boolean m) {
-        if(!m){
-            player.setVolume(0,0);
-        }else {
-            player.setVolume(1,1);
+        if (!m) {
+            player.setVolume(0, 0);
+        } else {
+            player.setVolume(1, 1);
         }
 
     }

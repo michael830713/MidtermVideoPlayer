@@ -8,10 +8,12 @@
 
     <SeekBar
         android:id="@+id/mediacontroller_progress"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/time"
         app:layout_constraintStart_toEndOf="@+id/time_current"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,6 +22,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
+        android:background="#ffffff"
         app:layout_constraintBottom_toBottomOf="@+id/ffwd"
         app:layout_constraintStart_toEndOf="@+id/ffwd"
         app:layout_constraintTop_toTopOf="@+id/ffwd"
@@ -29,11 +32,13 @@
         android:id="@+id/pause"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rew"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mediacontroller_progress"
         app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
 
@@ -42,6 +47,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
+        android:background="#ffffff"
         app:layout_constraintBottom_toBottomOf="@+id/pause"
         app:layout_constraintStart_toEndOf="@+id/pause"
         app:layout_constraintTop_toTopOf="@+id/pause"
@@ -51,9 +57,10 @@
         android:id="@+id/rew"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#ffffff"
         app:layout_constraintBottom_toBottomOf="@+id/pause"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonMute"
+        app:layout_constraintEnd_toStartOf="@+id/pause"
         app:layout_constraintTop_toTopOf="@+id/pause"
         app:srcCompat="@drawable/ic_fast_rewind_black_24dp" />
 
@@ -61,9 +68,10 @@
         android:id="@+id/imageButtonMute"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="96dp"
+        android:layout_marginEnd="8dp"
+        android:background="#ffffff"
         app:layout_constraintBottom_toBottomOf="@+id/pause"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rew"
         app:layout_constraintTop_toTopOf="@+id/pause"
         app:srcCompat="@drawable/ic_volume_mute_black_24dp" />
 
@@ -71,13 +79,12 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/mediacontroller_progress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/mediacontroller_progress"
-        app:layout_constraintTop_toTopOf="@+id/mediacontroller_progress"
 
-        />
+        app:layout_constraintTop_toTopOf="@+id/mediacontroller_progress" />
 
     <TextView
         android:id="@+id/time_current"
