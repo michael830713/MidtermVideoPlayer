@@ -19,6 +19,8 @@ package com.example.midtermvideoplayer;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -159,7 +161,7 @@ public class VideoControllerView extends FrameLayout {
      */
     protected View makeControllerView() {
         LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mRoot = inflate.inflate(R.layout.media_controller, null);
+        mRoot = inflate.inflate(R.layout.mike_media_controller, null);
 
         initControllerView(mRoot);
 
@@ -182,9 +184,9 @@ public class VideoControllerView extends FrameLayout {
         mFfwdButton = (ImageButton) v.findViewById(R.id.ffwd);
         if (mFfwdButton != null) {
             mFfwdButton.setOnClickListener(mFfwdListener);
-            if (!mFromXml) {
-                mFfwdButton.setVisibility(mUseFastForward ? View.VISIBLE : View.GONE);
-            }
+//            if (!mFromXml) {
+//                mFfwdButton.setVisibility(mUseFastForward ? View.VISIBLE : View.GONE);
+//            }
         }
 
         mRewButton = (ImageButton) v.findViewById(R.id.rew);
@@ -272,10 +274,10 @@ public class VideoControllerView extends FrameLayout {
             }
             disableUnsupportedButtons();
 
-            FrameLayout.LayoutParams tlp = new FrameLayout.LayoutParams(
+            ConstraintLayout.LayoutParams tlp = new ConstraintLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    Gravity.BOTTOM
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+
             );
 
             mAnchor.addView(this, tlp);

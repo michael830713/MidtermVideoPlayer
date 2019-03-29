@@ -6,15 +6,17 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.io.IOException;
 
-public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
+public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
 
     SurfaceView videoSurface;
     MediaPlayer player;
@@ -75,7 +77,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     @Override
     public void onPrepared(MediaPlayer mp) {
         controller.setMediaPlayer(this);
-        controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
+        controller.setAnchorView((LinearLayout) findViewById(R.id.video_container));
         player.start();
     }
     // End MediaPlayer.OnPreparedListener
@@ -138,18 +140,18 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 
     @Override
     public void toggleFullScreen() {
-//        View decorView = getWindow().getDecorView();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//            if (getActionBar().isShowing()) {
-//                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-//                decorView.setSystemUiVisibility(uiOptions);
-//                getActionBar().hide();
-//            } else {
-//                int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
-//                decorView.setSystemUiVisibility(uiOptions);
-//                getActionBar().show();
-//            }
-//        }
+        View decorView = getWindow().getDecorView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (getActionBar().isShowing()) {
+                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
+                getActionBar().hide();
+            } else {
+                int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+                decorView.setSystemUiVisibility(uiOptions);
+                getActionBar().show();
+            }
+        }
     }
     // End VideoMediaController.MediaPlayerControl
 
