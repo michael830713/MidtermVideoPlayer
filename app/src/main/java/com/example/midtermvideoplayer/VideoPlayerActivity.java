@@ -54,6 +54,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
                 mPercent=percent;
             }
         });
+        player.setVideoScalingMode(MediaPlayer
+                .VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
     }
 
     @Override
@@ -85,6 +87,26 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     public void onPrepared(MediaPlayer mp) {
         controller.setMediaPlayer(this);
         controller.setAnchorView((LinearLayout) findViewById(R.id.video_container));
+
+        int videoWidth = player.getVideoWidth();
+        int videoHeight = player.getVideoHeight();
+        float videoProportion = (float) videoWidth / (float) videoHeight;
+        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+        int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+        float screenProportion = (float) screenWidth / (float) screenHeight;
+        android.view.ViewGroup.LayoutParams lp = videoSurface.getLayoutParams();
+
+        if (videoProportion > screenProportion) {
+            lp.width = screenWidth;
+            lp.height = (int) ((float) screenWidth / videoProportion);
+        } else {
+            lp.width = (int) (videoProportion * (float) screenHeight);
+            lp.height = screenHeight;
+        }
+        videoSurface.setLayoutParams(lp);
+
+
+
         player.start();
     }
     // End MediaPlayer.OnPreparedListener
