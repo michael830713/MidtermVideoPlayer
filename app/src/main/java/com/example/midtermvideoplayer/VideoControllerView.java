@@ -214,6 +214,7 @@ public class VideoControllerView extends FrameLayout {
                 seeker.setOnSeekBarChangeListener(mSeekListener);
             }
             mProgress.setMax(1000);
+            mProgress.setProgress(mPlayer.getBufferPercentage());
         }
 
         mEndTime = (TextView) v.findViewById(R.id.time);

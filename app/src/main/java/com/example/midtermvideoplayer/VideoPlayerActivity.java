@@ -21,6 +21,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     SurfaceView videoSurface;
     MediaPlayer player;
     VideoControllerView controller;
+    int mPercent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
         } catch (IOException e) {
             e.printStackTrace();
         }
+        player.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+            @Override
+            public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                mPercent=percent;
+            }
+        });
     }
 
     @Override
@@ -100,7 +107,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
     @Override
     public int getBufferPercentage() {
-        return 0;
+
+        return mPercent;
     }
 
     @Override
