@@ -54,8 +54,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
                 mPercent=percent;
             }
         });
-        player.setVideoScalingMode(MediaPlayer
-                .VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+//        player.setVideoScalingMode(MediaPlayer
+//                .VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
     }
 
     @Override
@@ -166,6 +166,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     @Override
     public boolean isFullScreen() {
         return false;
+    }
+
+    @Override
+    public void toggleMute(boolean m) {
+        if(!m){
+            player.setVolume(0,0);
+        }else {
+            player.setVolume(1,1);
+        }
+
     }
 
     @Override

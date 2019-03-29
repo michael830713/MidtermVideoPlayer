@@ -85,6 +85,7 @@ public class VideoControllerView extends FrameLayout {
     private boolean mUseFastForward;
     private boolean mFromXml;
     private boolean mListenersSet;
+    private boolean mIsVolumeMute;
     private View.OnClickListener mNextListener, mPrevListener;
     StringBuilder mFormatBuilder;
     Formatter mFormatter;
@@ -94,6 +95,7 @@ public class VideoControllerView extends FrameLayout {
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
     private ImageButton mFullscreenButton;
+    private ImageButton mMuteButton;
     private Handler mHandler = new MessageHandler(this);
 
     public VideoControllerView(Context context, AttributeSet attrs) {
@@ -173,6 +175,12 @@ public class VideoControllerView extends FrameLayout {
         if (mPauseButton != null) {
             mPauseButton.requestFocus();
             mPauseButton.setOnClickListener(mPauseListener);
+        }
+
+        mMuteButton = v.findViewById(R.id.imageButtonMute);
+        if (mMuteButton != null) {
+            mMuteButton.requestFocus();
+            mMuteButton.setOnClickListener(mMuteListener);
         }
 
         mFullscreenButton = (ImageButton) v.findViewById(R.id.fullscreen);
@@ -275,10 +283,10 @@ public class VideoControllerView extends FrameLayout {
             }
             disableUnsupportedButtons();
 
-            ConstraintLayout.LayoutParams tlp = new ConstraintLayout.LayoutParams(
+            FrameLayout.LayoutParams tlp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    Gravity.BOTTOM
             );
 
             mAnchor.addView(this, tlp);
@@ -433,6 +441,21 @@ public class VideoControllerView extends FrameLayout {
     private View.OnClickListener mFullscreenListener = new View.OnClickListener() {
         public void onClick(View v) {
             doToggleFullscreen();
+            show(sDefaultTimeout);
+        }
+    };
+
+    private View.OnClickListener mMuteListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+            mPlayer.toggleMute(mIsVolumeMute);
+            if (mIsVolumeMute) {
+                mIsVolumeMute = false;
+                mMuteButton.setImageResource(R.drawable.ic_volume_mute_black_24dp);
+            } else {
+                mIsVolumeMute = true;
+                mMuteButton.setImageResource(R.drawable.ic_volume_off_black_24dp);
+            }
             show(sDefaultTimeout);
         }
     };
@@ -645,6 +668,8 @@ public class VideoControllerView extends FrameLayout {
         boolean isFullScreen();
 
         void toggleFullScreen();
+
+        void toggleMute(boolean isMute);
     }
 
     private static class MessageHandler extends Handler {

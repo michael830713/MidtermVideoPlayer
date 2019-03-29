@@ -53,12 +53,12 @@
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pause"
-        app:layout_constraintStart_toEndOf="@+id/imageButton5"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonMute"
         app:layout_constraintTop_toTopOf="@+id/pause"
         app:srcCompat="@drawable/ic_fast_rewind_black_24dp" />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/imageButtonMute"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="96dp"
