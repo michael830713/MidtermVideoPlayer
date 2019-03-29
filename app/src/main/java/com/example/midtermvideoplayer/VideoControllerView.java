@@ -17,6 +17,8 @@
 package com.example.midtermvideoplayer;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
@@ -31,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -223,6 +226,7 @@ public class VideoControllerView extends FrameLayout {
             }
             mProgress.setMax(1000);
             mProgress.setProgress(mPlayer.getBufferPercentage());
+            mProgress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#dd9bd9")));
         }
 
         mEndTime = (TextView) v.findViewById(R.id.time);
