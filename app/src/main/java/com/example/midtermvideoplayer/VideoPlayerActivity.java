@@ -1,12 +1,15 @@
 package com.example.midtermvideoplayer;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -22,6 +25,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     MediaPlayer player;
     VideoControllerView controller;
     int mPercent;
+    private boolean mFullScreen = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +63,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
             @Override
             public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
                 android.view.ViewGroup.LayoutParams lp = videoSurface.getLayoutParams();
-                lp.width = width*2;
-                lp.height = height*2;
+                lp.width = width * 2;
+                lp.height = height * 2;
                 videoSurface.setLayoutParams(lp);
             }
         });
@@ -171,7 +175,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
     @Override
     public boolean isFullScreen() {
-        return false;
+        if (mFullScreen) {
+            Log.v("FullScreen", "--set icon full screen--");
+            return false;
+        } else {
+            Log.v("FullScreen", "--set icon small full screen--");
+            return true;
+        }
     }
 
     @Override
@@ -186,19 +196,43 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
     @Override
     public void toggleFullScreen() {
-        View decorView = getWindow().getDecorView();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (getActionBar().isShowing()) {
-                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-                decorView.setSystemUiVisibility(uiOptions);
-                getActionBar().hide();
-            } else {
-                int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
-                decorView.setSystemUiVisibility(uiOptions);
-                getActionBar().show();
-            }
-        }
+        Log.v("FullScreen", "-----------------click toggleFullScreen-----------");
+        setFullScreen(isFullScreen());
     }
-    // End VideoMediaController.MediaPlayerControl
 
+    public void setFullScreen(boolean fullScreen) {
+        fullScreen = false;
+
+        if (mFullScreen) {
+            Log.v("FullScreen", "-----------Set full screen SCREEN_ORIENTATION_LANDSCAPE------------");
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            int height = displaymetrics.heightPixels;
+            int width = displaymetrics.widthPixels;
+            android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) videoSurface.getLayoutParams();
+            params.width = width;
+            params.height = height;
+            params.setMargins(0, 0, 0, 0);
+            //set icon is full screen
+            mFullScreen = fullScreen;
+        } else {
+            Log.v("FullScreen", "-----------Set small screen SCREEN_ORIENTATION_PORTRAIT------------");
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            final FrameLayout mFrame = (FrameLayout) findViewById(R.id.videoSurfaceContainer);
+            // int height = displaymetrics.heightPixels;
+            int height = mFrame.getHeight();//get height Frame Container video
+            int width = displaymetrics.widthPixels;
+            android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) videoSurface.getLayoutParams();
+            params.width = width;
+            params.height = height;
+            params.setMargins(0, 0, 0, 0);
+            //set icon is small screen
+            mFullScreen = !fullScreen;
+        }
+        // End VideoMediaController.MediaPlayerControl
+
+    }
 }
